@@ -10,7 +10,7 @@ def COLOR_MAP = [ // Its an array which contains key, value pairs
                       // sends its value as danger to the Post build actions where
                       // it is called and from there when slack receives value as
                       // danger then it displays red color in slack notification 
-                      
+]                      
 
 // Below defining a function to get the Build UserId and return the UserId for 
 // future usage in this script, we will get this in Post Build Actions

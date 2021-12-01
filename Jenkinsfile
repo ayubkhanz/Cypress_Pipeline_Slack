@@ -1,11 +1,16 @@
 import groovy.json.JsonOutput
 
 def COLOR_MAP = [ // Its an array which contains key, value pairs
-    'SUCCESS': 'good',//When the build is successful then it sends the slack notification 
-                      // as good and its color is GREEN
-    'FAILURE': 'danger'//When the build is a Failure then it sends the slack notification 
-                      // as danger and its color is RED
-]
+    'SUCCESS': 'good',// When the build is SUCCESS then this array as COLOR_MAP[SUCCESS]
+                      // sends its value as good to the Post build actions where
+                      // it is called and from there when slack receives value as
+                      // good then it displays green color in slack notification 
+
+    'FAILURE': 'danger'// When the build is FAILURE then this array as COLOR_MAP[FAILURE]
+                      // sends its value as danger to the Post build actions where
+                      // it is called and from there when slack receives value as
+                      // danger then it displays red color in slack notification 
+                      
 
 // Below defining a function to get the Build UserId and return the UserId for 
 // future usage in this script, we will get this in Post Build Actions
@@ -64,9 +69,12 @@ pipeline{
            slackSend channel: '#cypress', // my channel name is cypress
                      color: COLOR_MAP[currentBuild.currentResult], 
                      // currentBuild.currentResult will give u the status of the build
-                     // depending of the status SUCCESS / FAILURE of the build COLOR_MAP array will pickup the
-                     // color, if it is sUCCESS it will display "good" in green, if it is Failure it will
-                     // display "danger" in red color
+                     // If the status of the build is SUCCESS then above COLOR_MAP[SUCCESS]
+                     // array will pickup the value as good and display green color in 
+                     // slack notification and if the status is Failure then above COLOR_MAP
+                     // array will pickup the value as danger and display red color in 
+                     // slack notification
+
                      message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${BUILD_USER} \n Tests: ${SPEC} executed in browser ${BROWSER} \n More info at ${env.BUILD_URL}HTML_20Report/"
                      // This is the message we need to display in slack notification
                      // Look at the message body 
